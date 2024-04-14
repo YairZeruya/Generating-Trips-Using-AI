@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import UserInput from './UserInput';
+import { generateTripPlan } from './api';
+import TripPlanPage from './tripPlanPage';
+import TripPage from './TripPage';
 
 function App() {
+  const [tripPlan, setTripPlan] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGenerateClick = async (country, transportation) => {
+    setIsLoading(true);
+    const tripPlan = await generateTripPlan(country, transportation);
+    console.log('Generated trip plan:', tripPlan);
+    setTripPlan(tripPlan);
+    setIsLoading(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<UserInput onGenerateClick={handleGenerateClick} />} />
+        <Route path="/trip-plan" element={isLoading ? 'Loading...' : <TripPlanPage tripPlan={tripPlan} />} />
+        {tripPlan && <Route path="/trip/:tripName" element={<TripPage tripPlan={tripPlan} />} />}
+      </Routes>
+    </Router>
   );
 }
 

@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+/* UserInput.css */
+.UserInput {
+  margin: 20px;
+}
+
+.InputField,
+.SelectField,
+.GenerateButton {
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.GenerateButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.GenerateButton:hover {
+  background-color: #0056b3;
+}
